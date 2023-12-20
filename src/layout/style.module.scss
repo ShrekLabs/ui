@@ -1,0 +1,22 @@
+.layout {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.page {
+  display: flex;
+  flex: 1;
+  overflow-y: auto;
+}
