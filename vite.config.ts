@@ -3,21 +3,28 @@ import path from "path";
 import { defineConfig } from "vite";
 import packageJson from "./package.json";
 
-// https://github.com/jasonsturges/vite-typescript-npm-package
+const isDebug = process.env.DEBUG === "true";
 
 export default defineConfig({
   base: "./",
   plugins: [dts({ rollupTypes: true })],
   build: {
     sourcemap: true,
+    minify: isDebug ? false : "esbuild",
     lib: {
       entry: path.resolve(__dirname, "src/index.ts"),
       name: "ShrekLabsUI",
-      formats: ["es", "cjs", "umd", "iife"],
+      formats: ["es", "cjs"],
       fileName: (format) => `index.${format}.js`,
     },
     rollupOptions: {
-      external: Object.keys(packageJson.devDependencies || {}),
+      external: [
+        "react",
+        "react/jsx-runtime",
+        /^lodash(\/.*)?$/,
+        ...Object.keys(packageJson.devDependencies || {}),
+        ...Object.keys(packageJson.peerDependencies || {}),
+      ],
     },
   },
 });
